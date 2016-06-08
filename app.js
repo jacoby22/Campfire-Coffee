@@ -51,8 +51,8 @@ var pikePlaceMarket = {
 
 var capitolHill = {
   storeName: 'Capitol Hill',
-  maxCustPerHour: 35,
-  minCustPerHour: 14,
+  maxCustPerHour: 28,
+  minCustPerHour: 12,
   hoursOfOperation: 15,
   cupsPerCust: 1.2,
   lbsPerCust: 0.34,
@@ -101,8 +101,8 @@ var capitolHill = {
 
 var seattlePublicLibrary = {
   storeName: 'Seattle Public Library',
-  maxCustPerHour: 35,
-  minCustPerHour: 14,
+  maxCustPerHour: 45,
+  minCustPerHour: 9,
   hoursOfOperation: 15,
   cupsPerCust: 1.2,
   lbsPerCust: 0.34,
@@ -151,8 +151,8 @@ var seattlePublicLibrary = {
 
 var southLakeUnion = {
   storeName: 'South Lake Union',
-  maxCustPerHour: 35,
-  minCustPerHour: 14,
+  maxCustPerHour: 18,
+  minCustPerHour: 5,
   hoursOfOperation: 15,
   cupsPerCust: 1.2,
   lbsPerCust: 0.34,
@@ -201,8 +201,8 @@ var southLakeUnion = {
 
 var seaTacAirport = {
   storeName: 'Sea-Tac Airport',
-  maxCustPerHour: 35,
-  minCustPerHour: 14,
+  maxCustPerHour: 44,
+  minCustPerHour: 28,
   hoursOfOperation: 15,
   cupsPerCust: 1.2,
   lbsPerCust: 0.34,
@@ -261,4 +261,11 @@ console.log(pikePlaceMarket.totalLbsPerDay);
 console.log(pikePlaceMarket.cupBeansEachHour);
 console.log(pikePlaceMarket.empPerHour);
 
+var time = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
+
 var objects = [pikePlaceMarket, capitolHill, seattlePublicLibrary, southLakeUnion, seaTacAirport];
+
+var adult = document.getElementById('body');
+var child = document.createElement('h1');
+child.textContent = pikePlaceMarket.storeName;
+adult.appendChild(child);
