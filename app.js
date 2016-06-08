@@ -7,6 +7,7 @@ var pikePlaceMarket = {
   lbsPerCust: 0.34,
   sumOfCupsPerDay: 0,
   sumOfLbsPerDay: 0,
+  totalLbsPerDay: 0,
   coffeeYield: 16,
   custEachHour: [],
   cupsEachHour: [],
@@ -23,7 +24,7 @@ var pikePlaceMarket = {
       this.cupsEachHour.push(Math.round((custPerHour * this.cupsPerCust) * 10) / 10);
       this.lbsEachHour.push(Math.round((custPerHour * this.lbsPerCust) * 10) / 10);
       sumOfCups += Math.round((custPerHour * this.cupsPerCust) * 10) / 10;
-      sumOfLbs += Math.round((custPerHour * this.cupsPerCust) * 10) / 10;
+      sumOfLbs += Math.round((custPerHour * this.lbsPerCust) * 10) / 10;
 
     }
     this.sumOfCupsPerDay = Math.ceil(sumOfCups);
@@ -32,12 +33,18 @@ var pikePlaceMarket = {
 
   fillBeansEachHourArr: function() {
     var sumOfTotalLbs = 0;
-    for (value in lbsEachHour) {
+    for (value in this.custEachHour) {
+      sumOfTotalLbs += ((this.cupsEachHour[value] / this.coffeeYield) + (this.lbsEachHour[value]));
     }
+    this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
   }
 };
 
 pikePlaceMarket.fillEachHourArr();
+pikePlaceMarket.fillBeansEachHourArr();
 console.log(pikePlaceMarket.custEachHour);
 console.log(pikePlaceMarket.cupsEachHour);
 console.log(pikePlaceMarket.lbsEachHour);
+console.log(pikePlaceMarket.sumOfCupsPerDay);
+console.log(pikePlaceMarket.sumOfLbsPerDay);
+console.log(pikePlaceMarket.totalLbsPerDay);
