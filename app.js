@@ -287,9 +287,9 @@ var drawObject = function(objectName) {
   child.textContent = objectName.storeName;
   adult.appendChild(child);
   for (value in time) {
-    var adult2 = document.getElementById('text');
+    var adult2 = document.getElementById('body');
     var child2 = document.createElement('p');
-    child.textContent = time[value] + ': ' + objectName.totalBeansEachHour[value] + ' lbs [' + objectName.custEachHour[value] + ' customers, ' + objectName.cupsEachHour[value] + '(' + objectName.cupBeansEachHour[value] + ' lbs), ' + objectName.lbsEachHour[value] + ' lbs to-go]';
+    child2.textContent = time[value] + ': ' + objectName.totalBeansEachHour[value] + ' lbs [' + objectName.custEachHour[value] + ' customers, ' + objectName.cupsEachHour[value] + '(' + objectName.cupBeansEachHour[value] + ' lbs), ' + objectName.lbsEachHour[value] + ' lbs to-go]';
     adult2.appendChild(child2);
   }
 };
