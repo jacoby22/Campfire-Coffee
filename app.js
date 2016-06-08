@@ -14,6 +14,7 @@ var pikePlaceMarket = {
   cupsEachHour: [],
   lbsEachHour: [],
   cupBeansEachHour: [],
+  totalBeansEachHour: [],
   empPerHour: [],
 
 
@@ -37,6 +38,7 @@ var pikePlaceMarket = {
   fillBeansEachHourArr: function() {
     var sumOfTotalLbs = 0;
     for (value in this.custEachHour) {
+      this.totalBeansEachHour.push(Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10);
       sumOfTotalLbs += ((this.cupBeansEachHour[value]) + (this.lbsEachHour[value]));
     }
     this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
@@ -64,6 +66,7 @@ var capitolHill = {
   cupsEachHour: [],
   lbsEachHour: [],
   cupBeansEachHour: [],
+  totalBeansEachHour: [],
   empPerHour: [],
 
 
@@ -87,6 +90,7 @@ var capitolHill = {
   fillBeansEachHourArr: function() {
     var sumOfTotalLbs = 0;
     for (value in this.custEachHour) {
+      this.totalBeansEachHour.push(Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10);
       sumOfTotalLbs += ((this.cupBeansEachHour[value]) + (this.lbsEachHour[value]));
     }
     this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
@@ -114,6 +118,7 @@ var seattlePublicLibrary = {
   cupsEachHour: [],
   lbsEachHour: [],
   cupBeansEachHour: [],
+  totalBeansEachHour: [],
   empPerHour: [],
 
 
@@ -137,6 +142,7 @@ var seattlePublicLibrary = {
   fillBeansEachHourArr: function() {
     var sumOfTotalLbs = 0;
     for (value in this.custEachHour) {
+      this.totalBeansEachHour.push(Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10);
       sumOfTotalLbs += ((this.cupBeansEachHour[value]) + (this.lbsEachHour[value]));
     }
     this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
@@ -164,6 +170,7 @@ var southLakeUnion = {
   cupsEachHour: [],
   lbsEachHour: [],
   cupBeansEachHour: [],
+  totalBeansEachHour: [],
   empPerHour: [],
 
 
@@ -187,6 +194,7 @@ var southLakeUnion = {
   fillBeansEachHourArr: function() {
     var sumOfTotalLbs = 0;
     for (value in this.custEachHour) {
+      this.totalBeansEachHour.push(Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10);
       sumOfTotalLbs += ((this.cupBeansEachHour[value]) + (this.lbsEachHour[value]));
     }
     this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
@@ -214,6 +222,7 @@ var seaTacAirport = {
   cupsEachHour: [],
   lbsEachHour: [],
   cupBeansEachHour: [],
+  totalBeansEachHour: [],
   empPerHour: [],
 
 
@@ -237,6 +246,7 @@ var seaTacAirport = {
   fillBeansEachHourArr: function() {
     var sumOfTotalLbs = 0;
     for (value in this.custEachHour) {
+      this.totalBeansEachHour.push(Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10);
       sumOfTotalLbs += ((this.cupBeansEachHour[value]) + (this.lbsEachHour[value]));
     }
     this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
@@ -249,23 +259,39 @@ var seaTacAirport = {
   }
 };
 
-pikePlaceMarket.fillEachHourArr();
-pikePlaceMarket.fillBeansEachHourArr();
-pikePlaceMarket.calcEmpReqPerHour();
-console.log(pikePlaceMarket.custEachHour);
-console.log(pikePlaceMarket.cupsEachHour);
-console.log(pikePlaceMarket.lbsEachHour);
-console.log(pikePlaceMarket.sumOfCupsPerDay);
-console.log(pikePlaceMarket.sumOfLbsPerDay);
-console.log(pikePlaceMarket.totalLbsPerDay);
-console.log(pikePlaceMarket.cupBeansEachHour);
-console.log(pikePlaceMarket.empPerHour);
+var callObjectFunctions = function(objectName) {
+  objectName.fillEachHourArr();
+  objectName.fillBeansEachHourArr();
+  objectName.calcEmpReqPerHour();
+};
+
+callObjectFunctions(pikePlaceMarket);
+callObjectFunctions(capitolHill);
+callObjectFunctions(seattlePublicLibrary);
+callObjectFunctions(southLakeUnion);
+callObjectFunctions(seaTacAirport);
+
+
+
+console.log(capitolHill.lbsEachHour);
+console.log(capitolHill.cupBeansEachHour);
+console.log(pikePlaceMarket.totalBeansEachHour);
 
 var time = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
-var objects = [pikePlaceMarket, capitolHill, seattlePublicLibrary, southLakeUnion, seaTacAirport];
+//var objects = [pikePlaceMarket, capitolHill, seattlePublicLibrary, southLakeUnion, seaTacAirport];
 
-var adult = document.getElementById('body');
-var child = document.createElement('h1');
-child.textContent = pikePlaceMarket.storeName;
-adult.appendChild(child);
+var drawObject = function(objectName) {
+  var adult = document.getElementById('body');
+  var child = document.createElement('h1');
+  child.textContent = objectName.storeName;
+  adult.appendChild(child);
+  for (value in time) {
+    var adult2 = document.getElementById('text');
+    var child2 = document.createElement('p');
+    child.textContent = time[value] + ': ' + objectName.totalBeansEachHour[value] + ' lbs [' + objectName.custEachHour[value] + ' customers, ' + objectName.cupsEachHour[value] + '(' + objectName.cupBeansEachHour[value] + ' lbs), ' + objectName.lbsEachHour[value] + ' lbs to-go]';
+    adult2.appendChild(child2);
+  }
+};
+
+drawObject(pikePlaceMarket);
