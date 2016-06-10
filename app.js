@@ -83,8 +83,9 @@ console.log(seaTacAirport.custEachHour);
 function Table(storeNames, tableTitle) {
   this.storeNames = storeNames;
   this.tableTitle = tableTitle;
+  this.time = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
+
 }
-var time = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
 Table.prototype.createTable = function() {
   var adult = document.getElementById('body');
@@ -92,21 +93,29 @@ Table.prototype.createTable = function() {
   title.textContent = this.tableTitle;
   adult.appendChild(title);
   var table = document.createElement('table');
-  title.appendChild(table);
+  table.style.border = '1px solid black';
+  var row = document.createElement('tr');
+  table.appendChild(row);
+  adult.appendChild(table);
 };
 
-// Table.prototype.createHeader = function () {
-//   var blank = document.createElement('th');
-//   blank.textContent = '';
-//
-//   for (var i = 0; i < time.length; i++) {
-//
-//   }
-// };
+Table.prototype.createHeader = function () {
+  var row = document.createElement('tr');
+  var headerValue = document.createElement('th');
+  headerValue.textContent = 'one';
+  row.appendChild(headerValue);
+  for (var i = 0; i < this.time.length; i++) {
+    headerValue = document.createElement('th');
+    headerValue.textContent = this.time;
+    row.appendChild(headerValue);
+  }
+};
 
 var beansTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
 
 beansTable.createTable();
+beansTable.createHeader();
+
 
 // Table.prototype.createBeanTable = function(objectName, time) {
 //   var adult = document.getElementById('body');
