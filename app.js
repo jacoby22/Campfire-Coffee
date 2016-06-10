@@ -59,6 +59,25 @@ var seattlePublicLibrary = new Store('Seattle Public Library', 9, 45, 2.6, 0.02)
 var southLakeUnion = new Store('South Lake Union', 5, 18, 1.3, 0.04);
 var seaTacAirport = new Store('Sea-Tac Airport', 28, 44, 1.1, 0.41);
 
+function runMethods(objectName) {
+  objectName.fillEachHourArr();
+  objectName.fillBeansEachHourArr();
+  objectName.calcEmpReqPerHour();
+}
+
+runMethods(pikePlaceMarket);
+runMethods(capitolHill);
+runMethods(seattlePublicLibrary);
+runMethods(southLakeUnion);
+runMethods(seaTacAirport);
+
+console.log(pikePlaceMarket.custEachHour);
+console.log(capitolHill.custEachHour);
+console.log(seattlePublicLibrary.custEachHour);
+console.log(southLakeUnion.custEachHour);
+console.log(seaTacAirport.custEachHour);
+
+
 
 
 // var capitolHill = {
