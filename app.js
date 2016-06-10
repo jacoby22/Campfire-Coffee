@@ -292,8 +292,6 @@ callObjectFunctions(seaTacAirport);
 
 var time = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
-var
-
 drawObject = function(objectName) {
   var adult = document.getElementById('body');
   var child = document.createElement('h1');
@@ -322,22 +320,8 @@ drawObject = function(objectName) {
   adult.appendChild(child2);
 };
 
-
-
 drawObject(pikePlaceMarket);
 drawObject(capitolHill);
 drawObject(seattlePublicLibrary);
 drawObject(southLakeUnion);
 drawObject(seaTacAirport);
-function printTotals(objectName) {
-  console.log(objectName.sumOfCustPerDay);
-  console.log(objectName.sumOfCupsPerDay);
-  console.log(objectName.sumOfLbsPerDay);
-  console.log(objectName.totalLbsPerDay);
-}
-
-printTotals(pikePlaceMarket);
-printTotals(capitolHill);
-printTotals(seattlePublicLibrary);
-printTotals(southLakeUnion);
-printTotals(seaTacAirport);
