@@ -1,5 +1,9 @@
 //Beginning of Campfire-Coffee
 var storeNames = [];
+var dailyBeanTotal = 0;
+var dailyEmpTotal = 0;
+var hourlyBeanTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var hourlyEmpTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust) {
   this.storeName = storeName;
@@ -12,6 +16,7 @@ function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCus
   this.sumOfCupsPerDay = 0;
   this.sumOfLbsPerDay = 0;
   this.totalLbsPerDay = 0;
+  this.totalEmpPerDay = 0;
   this.coffeeYield = 16;
   this.custEachHour = [];
   this.cupsEachHour = [];
@@ -46,14 +51,21 @@ Store.prototype.fillBeansEachHourArr = function () {
   for (value in this.custEachHour) {
     this.totalBeansEachHour.push(Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10);
     sumOfTotalLbs += ((this.cupBeansEachHour[value]) + (this.lbsEachHour[value]));
+    hourlyBeanTotal[value] += Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10;
   }
   this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
+  dailyBeanTotal += this.totalLbsPerDay;
 };
 
 Store.prototype.calcEmpReqPerHour = function () {
+  var empSum = 0;
   for (value in this.custEachHour) {
     this.empPerHour.push(Math.ceil(this.custEachHour[value] / 30));
+    empSum += this.empPerHour[value];
+    hourlyEmpTotal[value] += Math.ceil(this.custEachHour[value] / 30);
   }
+  this.totalEmpPerDay = empSum;
+  dailyEmpTotal += this.totalEmpPerDay;
 };
 
 var pikePlaceMarket = new Store('Pike Place Market', 35, 14, 1.2, 0.34);
@@ -80,82 +92,127 @@ console.log(seattlePublicLibrary.custEachHour);
 console.log(southLakeUnion.custEachHour);
 console.log(seaTacAirport.custEachHour);
 
-function Table(storeNames, tableTitle) {
+function Table(storeNames, tableTitle, usage) {
   this.storeNames = storeNames;
   this.tableTitle = tableTitle;
-  this.time = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
+  this.usage = usage;
+  this.time = ['Daily Location Total','6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
 }
 
-Table.prototype.createTable = function() {
+Table.prototype.createTable = function(tableID) {
   var adult = document.getElementById('body');
   var title = document.createElement('h1');
   title.textContent = this.tableTitle;
   adult.appendChild(title);
   var table = document.createElement('table');
+  table.id = tableID;
   table.style.border = '1px solid black';
+  table.style.borderCollapse = 'collapse';
+  adult.appendChild(table);
+};
+
+Table.prototype.createHeader = function (tableID) {
+  var table = document.getElementById(tableID);
   var row = document.createElement('tr');
+  var headerValue = document.createElement('th');
+  headerValue.textContent = '';
+  headerValue.style.border = '1px solid black';
+  row.appendChild(headerValue);
+  for (var i = 0; i < this.time.length; i++) {
+    headerValue = document.createElement('th');
+    headerValue.textContent = this.time[i];
+    headerValue.style.border = '1px solid black';
+    headerValue.style.padding = '4px';
+    row.appendChild(headerValue);
+  }
+  table.appendChild(row);
+};
+
+Table.prototype.createDataRow = function (tableID, object) {
+  var table = document.getElementById(tableID);
+  var row = document.createElement('tr');
+  for (var i = 0; i < this.time.length + 1; i++) {
+    var dataValue = document.createElement('td');
+    dataValue.style.border = '1px solid black';
+    dataValue.style.padding = '4px';
+    if (i === 0) {
+      dataValue.textContent = object.storeName;
+      row.appendChild(dataValue);
+    }
+    else if (i === 1) {
+      if (this.usage === 'beans') {
+        dataValue.textContent = object.totalLbsPerDay;
+        row.appendChild(dataValue);
+      }
+      else {
+        dataValue.textContent = object.totalEmpPerDay;
+        row.appendChild(dataValue);
+      }
+    }
+    else {
+      if (this.usage === 'beans') {
+        dataValue.textContent = object.totalBeansEachHour[i - 2];
+        row.appendChild(dataValue);
+      }
+      else {
+        dataValue.textContent = object.empPerHour[i - 2];
+        row.appendChild(dataValue);
+      }
+    }
+  }
+  table.appendChild(row);
+};
+
+Table.prototype.parseData = function(tableID) {
+  for (index in storeNames) {
+    this.createDataRow(tableID, storeNames[index]);
+  }
+};
+Table.prototype.createFooter = function (tableID, adultID) {
+  var adult = document.getElementById(adultID);
+  var table = document.getElementById(tableID);
+  var row = document.createElement('tr');
+  var footerValue = document.createElement('td');
+  footerValue.textContent = 'Totals';
+  row.appendChild(footerValue);
+  for (var i = 0; i < this.time.length; i++) {
+    footerValue = document.createElement('td');
+    footerValue.style.border = '1px solid black';
+    footerValue.style.padding = '4px';
+    if (i === 0) {
+      if (this.usage === 'beans') {
+        footerValue.textContent = dailyBeanTotal;
+        row.appendChild(footerValue);
+      }
+      else {
+        footerValue.textContent = dailyEmpTotal;
+        row.appendChild(footerValue);
+      }
+    }
+    else {
+      if (this.usage === 'beans') {
+        footerValue.textContent = Math.round((hourlyBeanTotal[i - 1]) * 10) / 10;
+        row.appendChild(footerValue);
+      }
+      else {
+        footerValue.textContent = hourlyEmpTotal[i - 1];
+        row.appendChild(footerValue);
+      }
+    }
+  }
   table.appendChild(row);
   adult.appendChild(table);
 };
 
-Table.prototype.createHeader = function () {
-  var row = document.createElement('tr');
-  var headerValue = document.createElement('th');
-  headerValue.textContent = 'one';
-  row.appendChild(headerValue);
-  for (var i = 0; i < this.time.length; i++) {
-    headerValue = document.createElement('th');
-    headerValue.textContent = this.time;
-    row.appendChild(headerValue);
-  }
+Table.prototype.drawTable = function(tableID) {
+  this.createTable(tableID);
+  this.createHeader(tableID);
+  this.parseData(tableID);
+  this.createFooter(tableID, 'body');
 };
 
-var beansTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
-
-beansTable.createTable();
-beansTable.createHeader();
-
-
-// Table.prototype.createBeanTable = function(objectName, time) {
-//   var adult = document.getElementById('body');
-//   var table = document.createElement('table');
-//   for (var i = 0; i < time; i++) {
-//     if (i === 0) {
-//       var Header = document.createElement('th');
-//       createHeader.textContent = objectName.storeName;
-//       table.appendChild(Header);
-//     }
-//     else {
-//       console.log("Blah");
-//     }
-//   }
-// }
-
-// drawObject = function(objectName) {
-//   var adult = document.getElementById('body');
-//   var child = document.createElement('h1');
-//   var child2 = document.createElement('ul');
-//   child.textContent = objectName.storeName;
-//   adult.appendChild(child);
-//   for (value in time) {
-//     var child3 = document.createElement('li');
-//     child3.textContent = time[value] + ': ' + objectName.totalBeansEachHour[value] + ' lbs [' + objectName.custEachHour[value] + ' customers, ' + objectName.cupsEachHour[value] + '(' + objectName.cupBeansEachHour[value] + ' lbs), ' + objectName.lbsEachHour[value] + ' lbs to-go]';
-//     adult.appendChild(child3);
-//   }
-//   var child4 = document.createElement('li');
-//   child4.textContent = 'Total customers at ' + objectName.storeName + ': ' + objectName.sumOfCustPerDay;
-//   adult.appendChild(child4);
-//   var child5 = document.createElement('li');
-//   child5.textContent = 'Total cups sold at ' + objectName.storeName + ': ' + objectName.sumOfCupsPerDay;
-//   adult.appendChild(child5);
-//   var child6 = document.createElement('li');
-//
-//   child6.textContent = 'Total to-go pound packages sold at ' + objectName.storeName + ': ' + objectName.sumOfLbsPerDay;
-//   adult.appendChild(child6);
-//   var child7 = document.createElement('li');
-//
-//   child7.textContent = 'Total pounds of beans needed at ' + objectName.storeName + ': ' + objectName.totalLbsPerDay;
-//   adult.appendChild(child7);
-//   adult.appendChild(child2);
-// };
+var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day', 'beans');
+var empTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
+beansTable.drawTable('table1');
+empTable.drawTable('table2');
