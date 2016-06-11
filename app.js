@@ -1,5 +1,9 @@
 //Beginning of Campfire-Coffee
 var storeNames = [];
+var dailyBeanTotal = 0;
+var dailyEmpTotal = 0;
+var hourlyBeanTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var hourlyEmpTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust) {
   this.storeName = storeName;
@@ -47,8 +51,10 @@ Store.prototype.fillBeansEachHourArr = function () {
   for (value in this.custEachHour) {
     this.totalBeansEachHour.push(Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10);
     sumOfTotalLbs += ((this.cupBeansEachHour[value]) + (this.lbsEachHour[value]));
+    hourlyBeanTotal[value] += Math.round(((this.cupBeansEachHour[value]) + (this.lbsEachHour[value])) * 10) / 10;
   }
   this.totalLbsPerDay = Math.ceil(sumOfTotalLbs);
+  dailyBeanTotal += this.totalLbsPerDay;
 };
 
 Store.prototype.calcEmpReqPerHour = function () {
@@ -56,8 +62,10 @@ Store.prototype.calcEmpReqPerHour = function () {
   for (value in this.custEachHour) {
     this.empPerHour.push(Math.ceil(this.custEachHour[value] / 30));
     empSum += this.empPerHour[value];
+    hourlyEmpTotal[value] += Math.ceil(this.custEachHour[value] / 30);
   }
   this.totalEmpPerDay = empSum;
+  dailyEmpTotal += this.totalEmpPerDay;
 };
 
 var pikePlaceMarket = new Store('Pike Place Market', 35, 14, 1.2, 0.34);
@@ -108,7 +116,7 @@ Table.prototype.createHeader = function (tableID) {
   var table = document.getElementById(tableID);
   var row = document.createElement('tr');
   var headerValue = document.createElement('th');
-  headerValue.textContent = 'one';
+  headerValue.textContent = '';
   headerValue.style.border = '1px solid black';
   row.appendChild(headerValue);
   for (var i = 0; i < this.time.length; i++) {
@@ -125,7 +133,7 @@ Table.prototype.createDataRow = function (tableID, object) {
   var table = document.getElementById(tableID);
   var row = document.createElement('tr');
   for (var i = 0; i < this.time.length + 1; i++) {
-    dataValue = document.createElement('td');
+    var dataValue = document.createElement('td');
     dataValue.style.border = '1px solid black';
     dataValue.style.padding = '4px';
     if (i === 0) {
@@ -134,7 +142,7 @@ Table.prototype.createDataRow = function (tableID, object) {
     }
     else if (i === 1) {
       if (this.usage === 'beans') {
-        dataValue.textContent = object.sumOfLbsPerDay;
+        dataValue.textContent = object.totalLbsPerDay;
         row.appendChild(dataValue);
       }
       else {
@@ -156,17 +164,53 @@ Table.prototype.createDataRow = function (tableID, object) {
   table.appendChild(row);
 };
 
-Table.prototype.createFooter = function (tableID, object) {
-};
-
-var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day', 'beans');
-
-beansTable.createTable();
-beansTable.createHeader('table');
-
 Table.prototype.parseData = function() {
   for (index in storeNames) {
     this.createDataRow('table', storeNames[index]);
   }
 };
-beansTable.parseData();
+Table.prototype.createFooter = function (tableID) {
+  var table = document.getElementById(tableID);
+  var row = document.createElement('tr');
+  var footerValue = document.createElement('td');
+  footerValue.textContent = 'Totals';
+  row.appendChild(footerValue);
+  for (var i = 0; i < this.time.length; i++) {
+    footerValue = document.createElement('td');
+    footerValue.style.border = '1px solid black';
+    footerValue.style.padding = '4px';
+    if (i === 0) {
+      if (this.usage === 'beans') {
+        footerValue.textContent = dailyBeanTotal;
+        row.appendChild(footerValue);
+      }
+      else {
+        footerValue.textContent = dailyEmpTotal;
+        row.appendChild(footerValue);
+      }
+    }
+    else {
+      if (this.usage === 'beans') {
+        footerValue.textContent = Math.round((hourlyBeanTotal[i - 1]) * 10) / 10;
+        row.appendChild(footerValue);
+      }
+      else {
+        footerValue.textContent = hourlyEmpTotal[i - 1];
+        row.appendChild(footerValue);
+      }
+    }
+  }
+  table.appendChild(row);
+};
+
+Table.prototype.drawTable = function() {
+  this.createTable();
+  this.createHeader('table');
+  this.parseData();
+  this.createFooter('table');
+};
+
+var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day', 'beans');
+var empTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
+beansTable.drawTable();
+empTable.drawTable();
