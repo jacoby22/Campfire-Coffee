@@ -100,13 +100,13 @@ function Table(storeNames, tableTitle, usage) {
 
 }
 
-Table.prototype.createTable = function() {
+Table.prototype.createTable = function(tableID) {
   var adult = document.getElementById('body');
   var title = document.createElement('h1');
   title.textContent = this.tableTitle;
   adult.appendChild(title);
   var table = document.createElement('table');
-  table.id = 'table';
+  table.id = tableID;
   table.style.border = '1px solid black';
   table.style.borderCollapse = 'collapse';
   adult.appendChild(table);
@@ -164,12 +164,13 @@ Table.prototype.createDataRow = function (tableID, object) {
   table.appendChild(row);
 };
 
-Table.prototype.parseData = function() {
+Table.prototype.parseData = function(tableID) {
   for (index in storeNames) {
-    this.createDataRow('table', storeNames[index]);
+    this.createDataRow(tableID, storeNames[index]);
   }
 };
-Table.prototype.createFooter = function (tableID) {
+Table.prototype.createFooter = function (tableID, adultID) {
+  var adult = document.getElementById(adultID);
   var table = document.getElementById(tableID);
   var row = document.createElement('tr');
   var footerValue = document.createElement('td');
@@ -201,16 +202,17 @@ Table.prototype.createFooter = function (tableID) {
     }
   }
   table.appendChild(row);
+  adult.appendChild(table);
 };
 
-Table.prototype.drawTable = function() {
-  this.createTable();
-  this.createHeader('table');
-  this.parseData();
-  this.createFooter('table');
+Table.prototype.drawTable = function(tableID) {
+  this.createTable(tableID);
+  this.createHeader(tableID);
+  this.parseData(tableID);
+  this.createFooter(tableID, 'body');
 };
 
 var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day', 'beans');
 var empTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
-beansTable.drawTable();
-empTable.drawTable();
+beansTable.drawTable('table1');
+empTable.drawTable('table2');
