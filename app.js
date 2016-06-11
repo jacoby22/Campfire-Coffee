@@ -93,23 +93,22 @@ Table.prototype.createTable = function() {
   title.textContent = this.tableTitle;
   adult.appendChild(title);
   var table = document.createElement('table');
+  table.ID = 'table';
   table.style.border = '1px solid black';
-  var row = document.createElement('tr');
-  table.appendChild(row);
   adult.appendChild(table);
 };
 
-Table.prototype.createHeader = function () {
-  var row = document.createElement('tr');
-  var headerValue = document.createElement('th');
-  headerValue.textContent = 'one';
-  row.appendChild(headerValue);
-  for (var i = 0; i < this.time.length; i++) {
-    headerValue = document.createElement('th');
-    headerValue.textContent = this.time;
-    row.appendChild(headerValue);
-  }
-};
+// Table.prototype.createHeader = function () {
+//   var row = document.createElement('tr');
+//   var headerValue = document.createElement('th');
+//   headerValue.textContent = 'one';
+//   row.appendChild(headerValue);
+//   for (var i = 0; i < this.time.length; i++) {
+//     headerValue = document.createElement('th');
+//     headerValue.textContent = this.time;
+//     row.appendChild(headerValue);
+//   }
+// };
 
 var beansTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
 
