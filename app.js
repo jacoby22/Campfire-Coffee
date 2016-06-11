@@ -12,6 +12,7 @@ function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCus
   this.sumOfCupsPerDay = 0;
   this.sumOfLbsPerDay = 0;
   this.totalLbsPerDay = 0;
+  this.totalEmpPerDay = 0;
   this.coffeeYield = 16;
   this.custEachHour = [];
   this.cupsEachHour = [];
@@ -51,9 +52,12 @@ Store.prototype.fillBeansEachHourArr = function () {
 };
 
 Store.prototype.calcEmpReqPerHour = function () {
+  var empSum = 0;
   for (value in this.custEachHour) {
     this.empPerHour.push(Math.ceil(this.custEachHour[value] / 30));
+    empSum += this.empPerHour[value];
   }
+  this.totalEmpPerDay = empSum;
 };
 
 var pikePlaceMarket = new Store('Pike Place Market', 35, 14, 1.2, 0.34);
@@ -116,7 +120,7 @@ Table.prototype.createHeader = function (tableID) {
   table.appendChild(row);
 };
 
-Table.prototype.createDataRow = function (tableID, object) {
+Table.prototype.createDataRow = function (tableID, object, beansOrEmp) {
   var table = document.getElementById(tableID);
   var row = document.createElement('tr');
   for (var i = 0; i < this.time.length + 1; i++) {
@@ -128,12 +132,24 @@ Table.prototype.createDataRow = function (tableID, object) {
       row.appendChild(dataValue);
     }
     else if (i === 1) {
-      dataValue.textContent = object.sumOfLbsPerDay;
-      row.appendChild(dataValue);
+      if (beansOrEmp === 'beans') {
+        dataValue.textContent = object.sumOfLbsPerDay;
+        row.appendChild(dataValue);
+      }
+      else {
+        dataValue.textContent = object.totalEmpPerDay;
+        row.appendChild(dataValue);
+      }
     }
     else {
-      dataValue.textContent = object.totalBeansEachHour[i - 2];
-      row.appendChild(dataValue);
+      if (beansOrEmp === 'beans') {
+        dataValue.textContent = object.totalBeansEachHour[i - 2];
+        row.appendChild(dataValue);
+      }
+      else {
+        dataValue.textContent = object.empPerHour[i - 2];
+        row.appendChild(dataValue);
+      }
     }
   }
   table.appendChild(row);
@@ -143,7 +159,7 @@ var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day');
 
 beansTable.createTable();
 beansTable.createHeader('table');
-beansTable.createDataRow('table', pikePlaceMarket);
+beansTable.createDataRow('table', pikePlaceMarket, 'beans');
 
 
 // Table.prototype.createBeanTable = function(objectName, time) {
