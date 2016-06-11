@@ -83,7 +83,7 @@ console.log(seaTacAirport.custEachHour);
 function Table(storeNames, tableTitle) {
   this.storeNames = storeNames;
   this.tableTitle = tableTitle;
-  this.time = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
+  this.time = ['Daily Location Total','6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
 }
 
@@ -116,10 +116,34 @@ Table.prototype.createHeader = function (tableID) {
   table.appendChild(row);
 };
 
-var beansTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
+Table.prototype.createDataRow = function (tableID, object) {
+  var table = document.getElementById(tableID);
+  var row = document.createElement('tr');
+  for (var i = 0; i < this.time.length + 1; i++) {
+    dataValue = document.createElement('td');
+    dataValue.style.border = '1px solid black';
+    dataValue.style.padding = '4px';
+    if (i === 0) {
+      dataValue.textContent = object.storeName;
+      row.appendChild(dataValue);
+    }
+    else if (i === 1) {
+      dataValue.textContent = object.sumOfLbsPerDay;
+      row.appendChild(dataValue);
+    }
+    else {
+      dataValue.textContent = object.totalBeansEachHour[i - 2];
+      row.appendChild(dataValue);
+    }
+  }
+  table.appendChild(row);
+};
+
+var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day');
 
 beansTable.createTable();
 beansTable.createHeader('table');
+beansTable.createDataRow('table', pikePlaceMarket);
 
 
 // Table.prototype.createBeanTable = function(objectName, time) {
