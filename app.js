@@ -93,27 +93,33 @@ Table.prototype.createTable = function() {
   title.textContent = this.tableTitle;
   adult.appendChild(title);
   var table = document.createElement('table');
-  table.ID = 'table';
+  table.id = 'table';
   table.style.border = '1px solid black';
+  table.style.borderCollapse = 'collapse';
   adult.appendChild(table);
 };
 
-// Table.prototype.createHeader = function () {
-//   var row = document.createElement('tr');
-//   var headerValue = document.createElement('th');
-//   headerValue.textContent = 'one';
-//   row.appendChild(headerValue);
-//   for (var i = 0; i < this.time.length; i++) {
-//     headerValue = document.createElement('th');
-//     headerValue.textContent = this.time;
-//     row.appendChild(headerValue);
-//   }
-// };
+Table.prototype.createHeader = function (tableID) {
+  var table = document.getElementById(tableID);
+  var row = document.createElement('tr');
+  var headerValue = document.createElement('th');
+  headerValue.textContent = 'one';
+  headerValue.style.border = '1px solid black';
+  row.appendChild(headerValue);
+  for (var i = 0; i < this.time.length; i++) {
+    headerValue = document.createElement('th');
+    headerValue.textContent = this.time[i];
+    headerValue.style.border = '1px solid black';
+    headerValue.style.padding = '4px';
+    row.appendChild(headerValue);
+  }
+  table.appendChild(row);
+};
 
 var beansTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
 
 beansTable.createTable();
-beansTable.createHeader();
+beansTable.createHeader('table');
 
 
 // Table.prototype.createBeanTable = function(objectName, time) {
