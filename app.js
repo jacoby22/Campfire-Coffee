@@ -84,9 +84,10 @@ console.log(seattlePublicLibrary.custEachHour);
 console.log(southLakeUnion.custEachHour);
 console.log(seaTacAirport.custEachHour);
 
-function Table(storeNames, tableTitle) {
+function Table(storeNames, tableTitle, usage) {
   this.storeNames = storeNames;
   this.tableTitle = tableTitle;
+  this.usage = usage;
   this.time = ['Daily Location Total','6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
 }
@@ -120,7 +121,7 @@ Table.prototype.createHeader = function (tableID) {
   table.appendChild(row);
 };
 
-Table.prototype.createDataRow = function (tableID, object, beansOrEmp) {
+Table.prototype.createDataRow = function (tableID, object) {
   var table = document.getElementById(tableID);
   var row = document.createElement('tr');
   for (var i = 0; i < this.time.length + 1; i++) {
@@ -132,7 +133,7 @@ Table.prototype.createDataRow = function (tableID, object, beansOrEmp) {
       row.appendChild(dataValue);
     }
     else if (i === 1) {
-      if (beansOrEmp === 'beans') {
+      if (this.usage === 'beans') {
         dataValue.textContent = object.sumOfLbsPerDay;
         row.appendChild(dataValue);
       }
@@ -142,7 +143,7 @@ Table.prototype.createDataRow = function (tableID, object, beansOrEmp) {
       }
     }
     else {
-      if (beansOrEmp === 'beans') {
+      if (this.usage === 'beans') {
         dataValue.textContent = object.totalBeansEachHour[i - 2];
         row.appendChild(dataValue);
       }
@@ -155,52 +156,17 @@ Table.prototype.createDataRow = function (tableID, object, beansOrEmp) {
   table.appendChild(row);
 };
 
-var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day');
+Table.prototype.createFooter = function (tableID, object) {
+};
+
+var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day', 'beans');
 
 beansTable.createTable();
 beansTable.createHeader('table');
-beansTable.createDataRow('table', pikePlaceMarket, 'beans');
 
-
-// Table.prototype.createBeanTable = function(objectName, time) {
-//   var adult = document.getElementById('body');
-//   var table = document.createElement('table');
-//   for (var i = 0; i < time; i++) {
-//     if (i === 0) {
-//       var Header = document.createElement('th');
-//       createHeader.textContent = objectName.storeName;
-//       table.appendChild(Header);
-//     }
-//     else {
-//       console.log("Blah");
-//     }
-//   }
-// }
-
-// drawObject = function(objectName) {
-//   var adult = document.getElementById('body');
-//   var child = document.createElement('h1');
-//   var child2 = document.createElement('ul');
-//   child.textContent = objectName.storeName;
-//   adult.appendChild(child);
-//   for (value in time) {
-//     var child3 = document.createElement('li');
-//     child3.textContent = time[value] + ': ' + objectName.totalBeansEachHour[value] + ' lbs [' + objectName.custEachHour[value] + ' customers, ' + objectName.cupsEachHour[value] + '(' + objectName.cupBeansEachHour[value] + ' lbs), ' + objectName.lbsEachHour[value] + ' lbs to-go]';
-//     adult.appendChild(child3);
-//   }
-//   var child4 = document.createElement('li');
-//   child4.textContent = 'Total customers at ' + objectName.storeName + ': ' + objectName.sumOfCustPerDay;
-//   adult.appendChild(child4);
-//   var child5 = document.createElement('li');
-//   child5.textContent = 'Total cups sold at ' + objectName.storeName + ': ' + objectName.sumOfCupsPerDay;
-//   adult.appendChild(child5);
-//   var child6 = document.createElement('li');
-//
-//   child6.textContent = 'Total to-go pound packages sold at ' + objectName.storeName + ': ' + objectName.sumOfLbsPerDay;
-//   adult.appendChild(child6);
-//   var child7 = document.createElement('li');
-//
-//   child7.textContent = 'Total pounds of beans needed at ' + objectName.storeName + ': ' + objectName.totalLbsPerDay;
-//   adult.appendChild(child7);
-//   adult.appendChild(child2);
-// };
+Table.prototype.parseData = function() {
+  for (index in storeNames) {
+    this.createDataRow('table', storeNames[index]);
+  }
+};
+beansTable.parseData();
