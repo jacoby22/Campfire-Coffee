@@ -5,6 +5,8 @@ var dailyEmpTotal = 0;
 var hourlyBeanTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var hourlyEmpTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
+var form = document.getElementById('form');
+
 function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust) {
   this.storeName = storeName;
   this.maxCustPerHour = maxCustPerHour;
@@ -97,6 +99,7 @@ function Table(storeNames, tableTitle, usage) {
 Table.prototype.createTable = function(tableID) {
   var adult = document.getElementById('body');
   var title = document.createElement('h1');
+  title.id = this.tableTitle;
   title.textContent = this.tableTitle;
   adult.appendChild(title);
   var table = document.createElement('table');
@@ -122,6 +125,38 @@ Table.prototype.createHeader = function (tableID) {
   }
   table.appendChild(row);
 };
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+  var storeName = event.target.storeName.value;
+  var maxCustPerHour = parseInt(event.target.maxCustPerHour.value);
+  var minCustPerHour = parseInt(event.target.minCustPerHour.value);
+  var cupsPerCust = parseFloat(event.target.cupsPerCust.value);
+  var lbsPerCust = parseFloat(event.target.lbsPerCust.value);
+
+  var newStore = new Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust);
+  runMethods(newStore);
+
+  document.getElementById('table1').remove();
+  document.getElementById('table2').remove();
+  document.getElementById(beansTable.tableTitle + '').remove();
+  document.getElementById(empTable.tableTitle + '').remove();
+
+  beansTable.drawTable('table1');
+  empTable.drawTable('table2');
+
+  // beansTable.createDataRow('table1', newStore);
+  // empTable.createDataRow('table2', newStore);
+  //
+  // beansTable.createFooter('table1', 'body');
+  // empTable.createFooter('table2', 'body');
+
+  event.target.storeName.value = null;
+  event.target.maxCustPerHour.value = null;
+  event.target.minCustPerHour.value = null;
+  event.target.cupsPerCust.value = null;
+  event.target.lbsPerCust.value = null;
+}
 
 Table.prototype.createDataRow = function (tableID, object) {
   var table = document.getElementById(tableID);
@@ -167,6 +202,7 @@ Table.prototype.createFooter = function (tableID, adultID) {
   var adult = document.getElementById(adultID);
   var table = document.getElementById(tableID);
   var row = document.createElement('tr');
+  row.id = 'footer';
   var footerValue = document.createElement('td');
   footerValue.textContent = 'Totals';
   row.appendChild(footerValue);
@@ -205,6 +241,8 @@ Table.prototype.drawTable = function(tableID) {
   this.parseData(tableID);
   this.createFooter(tableID, 'body');
 };
+
+form.addEventListener('submit', handleFormSubmit);
 
 var beansTable = new Table(storeNames, 'Beans Needed By Location Each Day', 'beans');
 var empTable = new Table(storeNames, 'Baristas Needed By Location Each Day');
