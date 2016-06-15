@@ -15,7 +15,8 @@ legend {
   font-size: 24px;
 }
 
-button {
+.submit {
+  width: 33%;
   float: right;
   margin-top: 10px;
 }

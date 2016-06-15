@@ -8,7 +8,7 @@
     <p id = "text"><p>
       <fieldset>
         <legend><strong>Add a Store</strong></legend>
-        <form>
+        <form id='form'>
           <label for='storeName'>
             Store Name:
           </label>
@@ -29,8 +29,8 @@
             Lbs Per Customer:
           </label>
           <input type='number' name='lbsPerCust' value='' min='0' step='.01' required/>
+          <input class='submit' type='submit' value='Submit'/>
         </form>
-        <button id='submit'>Submit</button>
       </fieldset>
     <script type="text/javascript" src="app.js"></script>
   </body>
