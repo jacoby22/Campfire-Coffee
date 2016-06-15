@@ -86,12 +86,6 @@ runMethods(seattlePublicLibrary);
 runMethods(southLakeUnion);
 runMethods(seaTacAirport);
 
-console.log(pikePlaceMarket.custEachHour);
-console.log(capitolHill.custEachHour);
-console.log(seattlePublicLibrary.custEachHour);
-console.log(southLakeUnion.custEachHour);
-console.log(seaTacAirport.custEachHour);
-
 function Table(storeNames, tableTitle, usage) {
   this.storeNames = storeNames;
   this.tableTitle = tableTitle;
