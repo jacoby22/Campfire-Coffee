@@ -2,32 +2,35 @@
 <html>
   <head>
     <title>Campfire Coffee</title>
+    <link rel="stylesheet" type="text/css" href="table.css">
   </head>
   <body id = "body">
     <p id = "text"><p>
       <fieldset>
+        <legend><strong>Add a Store</strong></legend>
         <form>
           <label for='storeName'>
-            Store Name
+            Store Name:
           </label>
-          <input type='text' name='storeName' value=''/>
+          <input type='text' name='storeName' value='' required/>
           <label for='maxCustPerHour'>
-            Max Customers Per Hour
+            Max Customers Per Hour:
           </label>
-          <input type='number' name='maxCustPerHour' value=''/>
+          <input type='number' name='maxCustPerHour' value='' min='0' required/>
           <label for='minCustPerHour'>
-            Min Customers Per Hour
+            Min Customers Per Hour:
           </label>
-          <input type='number' name='minCustPerHour' value=''/>
+          <input type='number' name='minCustPerHour' value='' min='0' required/>
           <label for='cupsPerCust'>
-            Cups Per Customer
+            Cups Per Customer:
           </label>
-          <input type='number' name='cupsPerCust' value=''/>
+          <input type='number' name='cupsPerCust' value='' min='0' step='.1' required/>
           <label for='lbsPerCust'>
-            Lbs Per Customer
+            Lbs Per Customer:
           </label>
-          <input type='number' name='lbsPerCust' value=''/>
+          <input type='number' name='lbsPerCust' value='' min='0' step='.01' required/>
         </form>
+        <button id='submit'>Submit</button>
       </fieldset>
     <script type="text/javascript" src="app.js"></script>
   </body>
