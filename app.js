@@ -4,7 +4,6 @@ var dailyBeanTotal = 0;
 var dailyEmpTotal = 0;
 var hourlyBeanTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var hourlyEmpTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
 var form = document.getElementById('form');
 
 function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust) {
@@ -93,7 +92,6 @@ function Table(storeNames, tableTitle, usage) {
   this.tableTitle = tableTitle;
   this.usage = usage;
   this.time = ['Daily Location Total','6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
-
 }
 
 Table.prototype.createTable = function(tableID) {
@@ -144,12 +142,6 @@ function handleFormSubmit(event) {
 
   beansTable.drawTable('table1');
   empTable.drawTable('table2');
-
-  // beansTable.createDataRow('table1', newStore);
-  // empTable.createDataRow('table2', newStore);
-  //
-  // beansTable.createFooter('table1', 'body');
-  // empTable.createFooter('table2', 'body');
 
   event.target.storeName.value = null;
   event.target.maxCustPerHour.value = null;

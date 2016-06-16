@@ -9,6 +9,7 @@ label {
 input {
   width: 150px;
   margin: 5px;
+  color: black;
 }
 
 legend {
@@ -19,4 +20,5 @@ legend {
   width: 33%;
   float: right;
   margin-top: 10px;
+  box-shadow: 1px 1px black;
 }
