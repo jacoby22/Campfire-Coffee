@@ -1,5 +1,6 @@
 //Beginning of Campfire-Coffee
 var storeNames = [];
+var storeNameValues = [];
 var dailyBeanTotal = 0;
 var dailyEmpTotal = 0;
 var hourlyBeanTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -26,6 +27,7 @@ function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCus
   this.totalBeansEachHour = [];
   this.empPerHour = [];
   storeNames.push(this);
+  storeNameValues.push(this.storeName);
 }
 
 Store.prototype.fillEachHourArr = function () {
@@ -81,11 +83,9 @@ function runMethods(objectName) {
   objectName.calcEmpReqPerHour();
 }
 
-runMethods(pikePlaceMarket);
-runMethods(capitolHill);
-runMethods(seattlePublicLibrary);
-runMethods(southLakeUnion);
-runMethods(seaTacAirport);
+for (var store in storeNames) {
+  runMethods(storeNames[store]);
+}
 
 function Table(storeNames, tableTitle, usage) {
   this.storeNames = storeNames;
@@ -124,6 +124,13 @@ Table.prototype.createHeader = function (tableID) {
   table.appendChild(row);
 };
 
+function clearTables() {
+  document.getElementById('table1').remove();
+  document.getElementById('table2').remove();
+  document.getElementById(beansTable.tableTitle + '').remove();
+  document.getElementById(empTable.tableTitle + '').remove();
+}
+
 function handleFormSubmit(event) {
   event.preventDefault();
   var storeName = event.target.storeName.value;
@@ -132,13 +139,28 @@ function handleFormSubmit(event) {
   var cupsPerCust = parseFloat(event.target.cupsPerCust.value);
   var lbsPerCust = parseFloat(event.target.lbsPerCust.value);
 
-  var newStore = new Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust);
-  runMethods(newStore);
+  for (var index in storeNameValues) {
+    if (storeNameValues[index] === storeName) {
+      storeNames[index].maxCustPerHour = maxCustPerHour;
+      storeNames[index].minCustPerHour = minCustPerHour;
+      storeNames[index].cupsPerCust = cupsPerCust;
+      storeNames[index].lbsPerCust = lbsPerCust;
+      storeNames[index].custEachHour = [];
+      storeNames[index].cupsEachHour = [];
+      storeNames[index].lbsEachHour = [];
+      storeNames[index].cupBeansEachHour = [];
+      storeNames[index].totalBeansEachHour = [];
+      storeNames[index].empPerHour = [];
+      runMethods(storeNames[index]);
+    }
+  }
 
-  document.getElementById('table1').remove();
-  document.getElementById('table2').remove();
-  document.getElementById(beansTable.tableTitle + '').remove();
-  document.getElementById(empTable.tableTitle + '').remove();
+  if (storeNameValues.indexOf(storeName) === -1) {
+    var newStore = new Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust);
+    runMethods(newStore);
+  }
+
+  clearTables();
 
   beansTable.drawTable('table1');
   empTable.drawTable('table2');
@@ -190,6 +212,7 @@ Table.prototype.parseData = function(tableID) {
     this.createDataRow(tableID, storeNames[index]);
   }
 };
+
 Table.prototype.createFooter = function (tableID, adultID) {
   var adult = document.getElementById(adultID);
   var table = document.getElementById(tableID);
