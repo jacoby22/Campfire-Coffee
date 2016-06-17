@@ -27,6 +27,7 @@ function Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCus
   this.totalBeansEachHour = [];
   this.empPerHour = [];
   storeNames.push(this);
+  storeNameValues.push(this.storeName);
 }
 
 Store.prototype.fillEachHourArr = function () {
@@ -82,19 +83,9 @@ function runMethods(objectName) {
   objectName.calcEmpReqPerHour();
 }
 
-runMethods(pikePlaceMarket);
-runMethods(capitolHill);
-runMethods(seattlePublicLibrary);
-runMethods(southLakeUnion);
-runMethods(seaTacAirport);
-
-function fillStoreNameValues() {
-  for (var index in storeNames) {
-    storeNameValues[index] = storeNames[index].storeName;
-  }
+for (var store in storeNames) {
+  runMethods(storeNames[store]);
 }
-
-fillStoreNameValues();
 
 function Table(storeNames, tableTitle, usage) {
   this.storeNames = storeNames;
@@ -221,6 +212,7 @@ Table.prototype.parseData = function(tableID) {
     this.createDataRow(tableID, storeNames[index]);
   }
 };
+
 Table.prototype.createFooter = function (tableID, adultID) {
   var adult = document.getElementById(adultID);
   var table = document.getElementById(tableID);
