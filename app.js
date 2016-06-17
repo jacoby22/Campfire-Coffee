@@ -1,5 +1,6 @@
 //Beginning of Campfire-Coffee
 var storeNames = [];
+var storeNameValues = [];
 var dailyBeanTotal = 0;
 var dailyEmpTotal = 0;
 var hourlyBeanTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -87,6 +88,14 @@ runMethods(seattlePublicLibrary);
 runMethods(southLakeUnion);
 runMethods(seaTacAirport);
 
+function fillStoreNameValues() {
+  for (var index in storeNames) {
+    storeNameValues[index] = storeNames[index].storeName;
+  }
+}
+
+fillStoreNameValues();
+
 function Table(storeNames, tableTitle, usage) {
   this.storeNames = storeNames;
   this.tableTitle = tableTitle;
@@ -124,6 +133,13 @@ Table.prototype.createHeader = function (tableID) {
   table.appendChild(row);
 };
 
+function clearTables() {
+  document.getElementById('table1').remove();
+  document.getElementById('table2').remove();
+  document.getElementById(beansTable.tableTitle + '').remove();
+  document.getElementById(empTable.tableTitle + '').remove();
+}
+
 function handleFormSubmit(event) {
   event.preventDefault();
   var storeName = event.target.storeName.value;
@@ -132,13 +148,24 @@ function handleFormSubmit(event) {
   var cupsPerCust = parseFloat(event.target.cupsPerCust.value);
   var lbsPerCust = parseFloat(event.target.lbsPerCust.value);
 
-  var newStore = new Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust);
-  runMethods(newStore);
+  for (var index in storeNameValues) {
+    if (storeNameValues[index] === storeName) {
+      storeNames[index].storeName = storeName;
+      storeNames[index].storeName = storeName;
+      storeNames[index].maxCustPerHour = maxCustPerHour;
+      storeNames[index].minCustPerHour = minCustPerHour;
+      storeNames[index].cupsPerCust = cupsPerCust;
+      storeNames[index].lbsPerCust = lbsPerCust;
+      console.log('It works!');
+    }
+  }
 
-  document.getElementById('table1').remove();
-  document.getElementById('table2').remove();
-  document.getElementById(beansTable.tableTitle + '').remove();
-  document.getElementById(empTable.tableTitle + '').remove();
+  if (storeNameValues.indexOf(storeName) === -1) {
+    var newStore = new Store(storeName, maxCustPerHour, minCustPerHour, cupsPerCust, lbsPerCust);
+    runMethods(newStore);
+  }
+
+  clearTables();
 
   beansTable.drawTable('table1');
   empTable.drawTable('table2');
