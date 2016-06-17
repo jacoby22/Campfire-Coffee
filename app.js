@@ -150,13 +150,17 @@ function handleFormSubmit(event) {
 
   for (var index in storeNameValues) {
     if (storeNameValues[index] === storeName) {
-      storeNames[index].storeName = storeName;
-      storeNames[index].storeName = storeName;
       storeNames[index].maxCustPerHour = maxCustPerHour;
       storeNames[index].minCustPerHour = minCustPerHour;
       storeNames[index].cupsPerCust = cupsPerCust;
       storeNames[index].lbsPerCust = lbsPerCust;
-      console.log('It works!');
+      storeNames[index].custEachHour = [];
+      storeNames[index].cupsEachHour = [];
+      storeNames[index].lbsEachHour = [];
+      storeNames[index].cupBeansEachHour = [];
+      storeNames[index].totalBeansEachHour = [];
+      storeNames[index].empPerHour = [];
+      runMethods(storeNames[index]);
     }
   }
 
