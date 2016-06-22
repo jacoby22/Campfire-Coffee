@@ -1,0 +1,27 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  align-items: center;
+}
+
+#S1 {
+  width: 400px;
+  margin-right: 50px;
+}
+
+#S2 {
+  width: 400px;
+  margin-left: 50px;
+}
