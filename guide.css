@@ -23,15 +23,35 @@ h3 {
   font-family: sans-serif;
 }
 
+article {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
 p {
   margin: 0;
 }
 
 .subheading {
+  display: block;
   font-size: 11px;
   font-style: italic;
   font-family: sans-serif;
   color: grey;
+}
+
+.hexcolor {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  color: grey;
+}
+
+.A2 {
+  display: flex;
+  flex-direction: column;
 }
 
 #S1 {
@@ -47,7 +67,7 @@ p {
 #swatch1 {
   height: 50px;
   width: 50px;
-  background-color: black;
+  background-color: #3D3D3D;
   margin-top: 25px;
   border-radius: 10px;
 }
@@ -55,7 +75,7 @@ p {
 #swatch2 {
   height: 50px;
   width: 50px;
-  background-color: orange;
+  background-color: #DE7914;
   margin-top: 25px;
   border-radius: 10px;
 }
@@ -63,7 +83,7 @@ p {
 #swatch3 {
   height: 50px;
   width: 50px;
-  background-color: blue;
+  background-color: #D6C509;
   margin-top: 25px;
   border-radius: 10px;
 }
@@ -71,7 +91,7 @@ p {
 #swatch4 {
   height: 50px;
   width: 50px;
-  background-color: yellow;
+  background-color: #5C3E0E;
   margin-top: 25px;
   border-radius: 10px;
 }
@@ -79,7 +99,7 @@ p {
 #swatch5 {
   height: 50px;
   width: 50px;
-  background-color: grey;
+  background-color: #C9C6BF;
   margin-top: 25px;
   border-radius: 10px;
 }
@@ -106,4 +126,5 @@ p {
 #typo4 {
   margin-top: 25px;
   margin-bottom: 0px;
+  font-family: sans-serif;
 }

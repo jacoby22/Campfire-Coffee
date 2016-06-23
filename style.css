@@ -46,7 +46,6 @@ img.campfire {
 
 article {
   height: 200px;
-  background-color: #ffffff;
 }
 
 span {
@@ -56,11 +55,12 @@ span {
 
 main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 aside {
-  margin-top: 50px;
+  margin-top: 100px;
+  width: 225px;
 }
 
 h2 {
@@ -82,9 +82,63 @@ li {
   margin-top: 0px;
 }
 
+article {
+  display: inline;
+  margin-top: 100px;
+  margin-left: 25px;
+  flex-wrap: wrap;
+  width: 70%;
+  min-width: 600px;
+}
+
+p {
+  display: flex;
+  margin-left: 20px;
+  background-color: transparent;
+  font-family: helvetica;
+}
+
+div {
+  background-color: rgba(232, 212, 146, 0.5);
+  display: flex;
+  justify-content: center;
+}
+
 #title {
   background-color: #DE7914;
-  background-color: rgba(222, 121, 20, 0.8);
+  background-color: rgba(222, 121, 20, 0.7);
   height: 200px;
   width: 315px;
+}
+
+#image2 {
+  width: 334px;
+  height: 200px;
+  padding: 0px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+#image3 {
+  width: 300px;
+  height: 200px;
+  padding: 0px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+#image4 {
+  width: 532px;
+  height: 300px;
+  padding: 0px;
+  margin-top: 10px;
+  margin-left: 70px;;
+}
+
+#lastImage {
+  display: block;
+}
+
+#lastpara {
+  margin-top: 0px;
 }
